@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Valentine’s Day Nancy❤️</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        background: linear-gradient(135deg, #ff4d6d, #ff8fa3);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Floating hearts background */
+      .heart {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        transform: rotate(45deg);
+        animation: floatUp 10s linear infinite;
+        opacity: 0.7;
+      }
+
+      .heart::before,
+      .heart::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+      }
+
+      .heart::before {
+        top: -10px;
+        left: 0;
+      }
+
+      .heart::after {
+        left: -10px;
+        top: 0;
+      }
+
+      @keyframes floatUp {
+        from {
+          transform: translateY(100vh) rotate(45deg);
+          opacity: 0.8;
+        }
+        to {
+          transform: translateY(-10vh) rotate(45deg);
+          opacity: 0;
+        }
+      }
+
+      /* Main card */
+      .card {
+        background: white;
+        padding: 50px 60px;
+        border-radius: 24px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        animation: fadeIn 1.5s ease;
+      }
+
+      .card-buttons {
+        display: flex;
+        justify-content: space-around;
+      }
+
+      @keyframes fadeIn {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      h1 {
+        color: #e63946;
+        font-size: 42px;
+        margin-bottom: 15px;
+      }
+
+      p {
+        color: #444;
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 25px;
+      }
+
+      .btn {
+        background: white;
+        color: black;
+        border: 1px solid #ff4d6d;
+        padding: 14px 28px;
+        border-radius: 999px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        user-select: none;
+      }
+      .btn-primary {
+        background: #ff4d6d;
+        color: white;
+      }
+      .btn-primary:hover {
+        background: #e63946;
+        transform: scale(1.5);
+      }
+
+      .footer {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #999;
+      }
+
+      #escapeBtn {
+        transition: transform 0.15s ease;
+        cursor: unset;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card" id="card">
+      <h1>Happy Valentine’s Day ❤️</h1>
+      <p>Nancy, Will you be my Valentine?</p>
+
+      <div class="card-buttons">
+        <div class="card-button" id="actionBtn">
+          <button class="btn btn-primary">Yes</button>
+        </div>
+        <div class="card-button">
+          <button class="btn" id="escapeBtn">No</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="result" style="display: none">
+        <h1>Victory! </h1>
+        <p>You captured the Valentine ❤️ </p>
+        <img src="./teen wolf.jpg" alt="" style="width: 100%;">
+    </div>
+
+    <!-- Floating hearts generator -->
+    <script>
+      for (let i = 0; i < 25; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 6 + Math.random() * 6 + "s";
+        heart.style.opacity = Math.random();
+        document.body.appendChild(heart);
+      }
+    </script>
+
+    <script>
+      const card = document.getElementById("card");
+      const escapeBtn = document.getElementById("escapeBtn");
+      const actionBtn = document.getElementById('actionBtn');
+      const result = document.getElementById('result');
+
+      card.addEventListener("mousemove", (e) => {
+        const rect = escapeBtn.getBoundingClientRect();
+
+        const btnCenterX = rect.left + rect.width / 2;
+        const btnCenterY = rect.top + rect.height / 2;
+
+        const dx = e.clientX - btnCenterX;
+        const dy = e.clientY - btnCenterY;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        const triggerRadius = 80;
+
+        if (distance < triggerRadius) {
+          // normalize vector (direction away from cursor)
+          const nx = dx / distance;
+          const ny = dy / distance;
+
+          const push = 80; // how far it escapes
+
+          const moveX = -nx * push;
+          const moveY = -ny * push;
+
+          escapeBtn.style.transform = `translate(${moveX}px, ${moveY}px) scale(0.6)`;
+        } else {
+          escapeBtn.style.transform = "";
+        }
+      });
+    
+      actionBtn.addEventListener('click', () => {
+        card.style.display = 'none';
+        result.style.display = null;
+      })
+    </script>
+  </body>
+</html>
